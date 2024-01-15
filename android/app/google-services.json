@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "638086617557",
+    "project_id": "chadchat-bb2db",
+    "storage_bucket": "chadchat-bb2db.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:638086617557:android:528410a16635a8f88b055c",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxUocFfEy_ys3pcb9Geniwl-tmkUfRmQA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
