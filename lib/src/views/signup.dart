@@ -2,6 +2,8 @@ import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_application_1/firebase_options.dart';
+import 'package:flutter_application_1/src/provider/auth_provider.dart';
+import 'package:provider/provider.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
@@ -167,10 +169,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: () {
-                    // Handle signup button press
-                    _verifyPhoneNumber(); // Call your phone number verification logic here
-                  },
+                  onPressed: () => verifyPhoneNumber(),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF549762),
                     padding: const EdgeInsets.symmetric(
@@ -197,5 +196,10 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  void _verifyPhoneNumber() async {}
+  void verifyPhoneNumber() {
+    final ap = Provider.of<AuthProvider>(context, listen: false);
+    String phoneNumber = _phoneNumberController.text.trim();
+    ap.SignInWithPhoneNumber(
+        context, "+${selectedCountry.phoneCode}$phoneNumber");
+  }
 }
