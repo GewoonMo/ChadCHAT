@@ -43,6 +43,7 @@ dependencies:
   provider: ^6.1.1
   shared_preferences: ^2.2.2
   pinput: ^3.0.1
+  flutterfire_cli: ^0.1.1+2
 
 dev_dependencies:
   flutter_test:
