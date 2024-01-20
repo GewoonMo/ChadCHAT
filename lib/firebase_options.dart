@@ -77,11 +77,10 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-      apiKey: "AIzaSyBu-fn8uBpnUz5qk4a20VX7TgCTeVPea6s",
-      authDomain: "chadchat-bb2db.firebaseapp.com",
-      projectId: "chadchat-bb2db",
-      storageBucket: "chadchat-bb2db.appspot.com",
-      messagingSenderId: "638086617557",
-      appId: "1:638086617557:web:b805e9793f7d9e778b055c",
-      measurementId: "G-YZCH1THXDT");
+    apiKey: 'AIzaSyBu-fn8uBpnUz5qk4a20VX7TgCTeVPea6s',
+    appId: '1:638086617557:android:528410a16635a8f88b055c',
+    messagingSenderId: '638086617557',
+    projectId: 'chadchat-bb2db',
+    storageBucket: 'chadchat-bb2db.appspot.com',
+  );
 }

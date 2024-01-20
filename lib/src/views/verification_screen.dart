@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/src/provider/auth_provider.dart';
+import 'package:flutter_application_1/src/views/account_screen.dart';
 import 'package:flutter_application_1/src/views/user_information_screen.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
@@ -194,7 +195,27 @@ class _VerificationScreenState extends State<VerificationScreen> {
         onSuccess: () {
           ap.checkExistingUser().then((value) async {
             if (value == true) {
-              Navigator.pushReplacementNamed(context, '/home');
+              ap
+                  .getDataFromFS()
+                  .then(
+                    (value) => ap.saveUserDataToSP().then(
+                          (value) => ap.setSignIn().then(
+                                (value) => Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const AccountScreen()),
+                                    (route) => false),
+                              ),
+                        ),
+                  )
+                  .catchError(
+                    (e) => ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(e.toString()),
+                      ),
+                    ),
+                  );
             } else {
               Navigator.pushAndRemoveUntil(
                   context,
