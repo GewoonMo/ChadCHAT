@@ -84,6 +84,9 @@ class AuthProvider extends ChangeNotifier {
   UserModel? _userModel;
   UserModel get userModel => _userModel!;
 
+  List<UserModel> _allUsers = [];
+  List<UserModel> get allUsers => _allUsers;
+
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
@@ -292,5 +295,31 @@ class AuthProvider extends ChangeNotifier {
     _isAuth = false;
     notifyListeners();
     s.clear();
+  }
+
+  // ----------------------------------------------------------------
+  // Get all users
+  // ----------------------------------------------------------------
+
+  Future<void> getAllUsers() async {
+    try {
+      QuerySnapshot<Map<String, dynamic>> snapshot =
+          await _firebaseFirestore.collection("users").get();
+
+      _allUsers = snapshot.docs.map((doc) {
+        return UserModel(
+          name: doc['name'],
+          bio: doc['bio'],
+          profilePicture: doc['profilePicture'],
+          createdAt: doc['createdAt'],
+          phoneNumber: doc['phoneNumber'],
+          uid: doc['uid'],
+        );
+      }).toList();
+
+      notifyListeners();
+    } catch (e) {
+      print("Error: fetching users: + $e");
+    }
   }
 }

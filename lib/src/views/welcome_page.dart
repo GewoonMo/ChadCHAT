@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_application_1/firebase_options.dart';
 import 'package:flutter_application_1/src/provider/auth_provider.dart';
 import 'package:flutter_application_1/src/views/account_screen.dart';
+import 'package:flutter_application_1/src/views/home_screen.dart';
 import 'package:provider/provider.dart';
 import '../views/signup.dart';
 
@@ -62,7 +63,7 @@ class WelcomeScreen extends StatelessWidget {
                         () => Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const AccountScreen(),
+                            builder: (context) => const HomeScreen(),
                           ),
                         ),
                       );

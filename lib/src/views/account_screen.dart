@@ -23,29 +23,35 @@ class _AccountScreenState extends State<AccountScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.background,
-        title: const Text("ChadCHAT"),
-        actions: [
-          IconButton(
-            onPressed: () async {
-              await ap.userSignOut().then(
-                    (value) => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const WelcomeScreen(),
-                      ),
-                    ) as FutureOr Function(dynamic value),
-                  );
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const SignupScreen(),
-                  ));
-            },
-            icon: const Icon(Icons.logout),
+          backgroundColor: Theme.of(context).colorScheme.background,
+          title: const Text(
+            "Account",
+            style: TextStyle(color: Colors.white),
           ),
-        ],
-      ),
+          actions: [
+            IconButton(
+              onPressed: () async {
+                await ap.userSignOut().then(
+                      (value) => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const WelcomeScreen(),
+                        ),
+                      ) as FutureOr Function(dynamic value),
+                    );
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SignupScreen(),
+                    ));
+              },
+              icon: const Icon(Icons.logout),
+              color: Colors.white,
+            ),
+          ],
+          iconTheme: const IconThemeData(
+            color: Colors.white,
+          )),
       body: Center(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -57,9 +63,18 @@ class _AccountScreenState extends State<AccountScreen> {
             radius: 50,
           ),
           const SizedBox(height: 20),
-          Text(ap.userModel.name),
-          Text(ap.userModel.phoneNumber),
-          Text(ap.userModel.bio),
+          Text(
+            ap.userModel.name,
+            style: const TextStyle(color: Colors.white),
+          ),
+          Text(
+            ap.userModel.phoneNumber,
+            style: const TextStyle(color: Colors.white),
+          ),
+          Text(
+            ap.userModel.bio,
+            style: const TextStyle(color: Colors.white),
+          ),
         ],
       )),
     );

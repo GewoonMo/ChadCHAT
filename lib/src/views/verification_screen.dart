@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/src/provider/auth_provider.dart';
 import 'package:flutter_application_1/src/views/account_screen.dart';
+import 'package:flutter_application_1/src/views/home_screen.dart';
 import 'package:flutter_application_1/src/views/user_information_screen.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
@@ -134,7 +135,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF549762),
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 40, vertical: 19),
+                                horizontal: 30, vertical: 10),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30),
                             ),
@@ -204,7 +205,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            const AccountScreen()),
+                                            const HomeScreen()),
                                     (route) => false),
                               ),
                         ),
