@@ -68,28 +68,37 @@ class ChatServices extends ChangeNotifier {
   }
 
   //getLastSentMessage
-  String? getLastSentMessage(String userId, String uid) {
+  Future<String?> getLastSentMessage(
+      String receiverUserId, String currentUserId,
+      {int wordLimit = 10}) async {
     String? lastMessage;
-    _firestore
-        .collection('chat_rooms')
-        .where('chat_room_id', arrayContains: userId)
-        .get()
-        .then((value) {
-      if (value.docs.isNotEmpty) {
-        String chatRoomId = value.docs.first.id;
-        _firestore
-            .collection('chat_rooms')
-            .doc(chatRoomId)
-            .collection('messages')
-            .orderBy('timestamp', descending: true)
-            .get()
-            .then((value) {
-          if (value.docs.isNotEmpty) {
-            lastMessage = value.docs.first.data()['message'] as String?;
-          }
-        });
+
+    try {
+      List<String> userIds = [currentUserId, receiverUserId];
+      userIds.sort();
+      String chatRoomId = userIds.join('_');
+
+      QuerySnapshot<Map<String, dynamic>> lastMessageQuerySnapshot =
+          await _firestore
+              .collection('chat_rooms')
+              .doc(chatRoomId)
+              .collection('messages')
+              .orderBy('timestamp', descending: true)
+              .limit(1)
+              .get();
+
+      if (lastMessageQuerySnapshot.docs.isNotEmpty) {
+        lastMessage =
+            lastMessageQuerySnapshot.docs.first.data()['message'] as String?;
+        if (lastMessage != null && lastMessage.split(' ').length > wordLimit) {
+          lastMessage =
+              '${lastMessage.split(' ').take(wordLimit).join(' ')} ...';
+        }
       }
-    });
+    } catch (e) {
+      print('Error getting last message: $e');
+    }
+
     return lastMessage;
   }
 }

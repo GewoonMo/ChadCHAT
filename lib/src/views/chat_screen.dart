@@ -117,7 +117,11 @@ class _ChatScreenState extends State<ChatScreen> {
               backgroundImage: NetworkImage(widget.receiverUserProfilePicture),
             ),
           const SizedBox(width: 10),
-          Container(
+          Flexible(
+              child: Container(
+            constraints: BoxConstraints(
+              maxWidth: MediaQuery.of(context).size.width * 0.65,
+            ),
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             decoration: BoxDecoration(
               color: (data['senderId'] == _firebaseAuth.currentUser!.uid)
@@ -153,7 +157,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 ),
               ],
             ),
-          )
+          ))
         ],
       ),
     );
