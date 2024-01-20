@@ -4,6 +4,7 @@ import 'package:flutter_application_1/src/model/user_model.dart';
 import 'package:flutter_application_1/src/utilities/utilities.dart';
 import 'package:flutter_application_1/src/provider/auth_provider.dart';
 import 'package:flutter_application_1/src/views/account_screen.dart';
+import 'package:flutter_application_1/src/views/home_screen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 // import 'dart:html' as html;
@@ -240,7 +241,7 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
                       (value) => Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const AccountScreen(),
+                            builder: (context) => const HomeScreen(),
                           ),
                           (route) => false),
                     ),
