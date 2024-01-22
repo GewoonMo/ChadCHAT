@@ -101,4 +101,40 @@ class ChatServices extends ChangeNotifier {
 
     return lastMessage;
   }
+
+  Future<void> deleteMessage(
+      String receiverUserId, String currentUserId, String messageId) async {
+    try {
+      List<String> userIds = [currentUserId, receiverUserId];
+      userIds.sort();
+      String chatRoomId = userIds.join('_');
+
+      await _firestore
+          .collection('chat_rooms')
+          .doc(chatRoomId)
+          .collection('messages')
+          .doc(messageId)
+          .delete();
+    } catch (e) {
+      print('Error deleting message: $e');
+    }
+  }
+
+  Future<void> editMessage(String receiverUserId, String currentUserId,
+      String messageId, String editedMessage) async {
+    try {
+      List<String> userIds = [currentUserId, receiverUserId];
+      userIds.sort();
+      String chatRoomId = userIds.join('_');
+
+      await _firestore
+          .collection('chat_rooms')
+          .doc(chatRoomId)
+          .collection('messages')
+          .doc(messageId)
+          .update({'message': editedMessage});
+    } catch (e) {
+      print('Error editing message: $e');
+    }
+  }
 }

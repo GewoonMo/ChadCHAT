@@ -50,10 +50,11 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             onPressed: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const AccountScreen(),
-                  ));
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AccountScreen(),
+                ),
+              );
             },
             icon: const Icon(
               Icons.account_circle,
@@ -63,52 +64,84 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: ListView.builder(
-          itemCount: ap.allUsers.length,
-          itemBuilder: (context, index) {
-            Future<String?> lastMessageFuture = apc.getLastSentMessage(
-                ap.allUsers[index].uid, ap.uid,
-                wordLimit: 20);
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Text(
+              "Messages",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 30.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          Expanded(
+            child: ListView.separated(
+              itemCount: ap.allUsers.length,
+              separatorBuilder: (context, index) => const Divider(
+                color: Color(0xFF549762),
+                thickness: 1.5,
+                indent: 50.0,
+                endIndent: 50.0,
+              ),
+              itemBuilder: (context, index) {
+                Future<String?> lastMessageFuture = apc.getLastSentMessage(
+                    ap.allUsers[index].uid, ap.uid,
+                    wordLimit: 20);
 
-            return FutureBuilder<String?>(
-                future: lastMessageFuture,
-                builder: (context, snapshot) {
-                  String lastMessage = snapshot.data ?? '';
+                return FutureBuilder<String?>(
+                  future: lastMessageFuture,
+                  builder: (context, snapshot) {
+                    String lastMessage = snapshot.data ?? '';
 
-                  return ListTile(
-                    onTap: () async {
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ChatScreen(
-                            receiverUserName: ap.allUsers[index].name,
-                            receiverUserProfilePicture:
-                                ap.allUsers[index].profilePicture,
-                            receiverUserUid: ap.allUsers[index].uid,
+                    return ListTile(
+                      onTap: () async {
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ChatScreen(
+                              receiverUserName: ap.allUsers[index].name,
+                              receiverUserProfilePicture:
+                                  ap.allUsers[index].profilePicture,
+                              receiverUserUid: ap.allUsers[index].uid,
+                            ),
                           ),
-                        ),
-                      );
+                        );
 
-                      await _initializeData();
-                    },
-                    leading: CircleAvatar(
-                      backgroundColor: Theme.of(context).colorScheme.background,
-                      backgroundImage:
-                          NetworkImage(ap.allUsers[index].profilePicture),
-                    ),
-                    title: Text(
-                      ap.allUsers[index].name,
-                      style: const TextStyle(
+                        await _initializeData();
+                      },
+                      leading: CircleAvatar(
+                        backgroundColor:
+                            Theme.of(context).colorScheme.background,
+                        backgroundImage:
+                            NetworkImage(ap.allUsers[index].profilePicture),
+                      ),
+                      title: Text(
+                        ap.allUsers[index].name,
+                        style: const TextStyle(
                           color: Color(0xFF549762),
-                          fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text(
-                      lastMessage,
-                      style: const TextStyle(color: Color(0xFF989EAE)),
-                    ),
-                  );
-                });
-          }),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18.0,
+                        ),
+                      ),
+                      subtitle: Text(
+                        lastMessage,
+                        style: const TextStyle(
+                          color: Color(0xFF989EAE),
+                          fontSize: 16.0,
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

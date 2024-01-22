@@ -34,6 +34,63 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
+  void _deleteMessage(String messageId) async {
+    await _chatServices.deleteMessage(
+        widget.receiverUserUid, _firebaseAuth.currentUser!.uid, messageId);
+  }
+
+  void _editMessage(String messageId, String editedMessage) {
+    TextEditingController editController =
+        TextEditingController(text: editedMessage);
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text(
+              'Edit Message',
+              style: TextStyle(color: Colors.white),
+            ),
+            content: TextFormField(
+              controller: editController,
+              style: const TextStyle(color: Colors.white),
+              decoration: const InputDecoration(
+                hintText: 'type your edited message',
+                hintStyle: TextStyle(color: Colors.white54),
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: const Text(
+                  'Cancel',
+                  style: TextStyle(color: Color(0xFF549762)),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: const Text(
+                  'Save',
+                  style: TextStyle(color: Color(0xFF549762)),
+                ),
+                onPressed: () async {
+                  await _chatServices.editMessage(
+                    widget.receiverUserUid,
+                    _firebaseAuth.currentUser!.uid,
+                    messageId,
+                    editController.text,
+                  );
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        });
+    // await _chatServices.editMessage(widget.receiverUserUid,
+    //     _firebaseAuth.currentUser!.uid, messageId, editedMessage);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,7 +138,7 @@ class _ChatScreenState extends State<ChatScreen> {
               hintStyle: TextStyle(color: Colors.white54),
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(50)),
-                  borderSide: BorderSide(color: Colors.white)),
+                  borderSide: BorderSide(color: Color(0xFF549762))),
               contentPadding: EdgeInsets.symmetric(horizontal: 20),
             ),
           ),
@@ -118,46 +175,67 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
           const SizedBox(width: 10),
           Flexible(
-              child: Container(
-            constraints: BoxConstraints(
-              maxWidth: MediaQuery.of(context).size.width * 0.65,
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            decoration: BoxDecoration(
-              color: (data['senderId'] == _firebaseAuth.currentUser!.uid)
-                  ? const Color(0xFF8A90A1)
-                  : const Color(0xFF549762),
-              borderRadius: BorderRadius.circular(30),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  data['senderName'],
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 12,
-                    color: Colors.white,
+            child: Container(
+              constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width * 0.65,
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              decoration: BoxDecoration(
+                color: (data['senderId'] == _firebaseAuth.currentUser!.uid)
+                    ? const Color(0xFF8A90A1)
+                    : const Color(0xFF549762),
+                borderRadius: BorderRadius.circular(30),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    data['senderName'],
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 12,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-                Text(
-                  provider.formatTime(data['timestamp'] as Timestamp),
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: Colors.white,
+                  Text(
+                    provider.formatTime(data['timestamp'] as Timestamp),
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 5),
-                Text(
-                  data['message'],
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: Colors.white,
+                  const SizedBox(height: 5),
+                  Text(
+                    data['message'],
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-              ],
+                  if (data['senderId'] == _firebaseAuth.currentUser!.uid)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.edit),
+                          color: Colors.white,
+                          onPressed: () {
+                            _editMessage(document.id, data['message']);
+                          },
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.delete),
+                          color: Colors.white,
+                          onPressed: () {
+                            _deleteMessage(document.id);
+                          },
+                        ),
+                      ],
+                    ),
+                ],
+              ),
             ),
-          ))
+          ),
         ],
       ),
     );
