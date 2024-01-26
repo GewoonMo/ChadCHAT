@@ -42,4 +42,6 @@ SMSCode: 111111
 Telefoonnummer: +31 4 44444444 <- het moet zo geschreven worden met de spatie
 SMSCode: 444444
 
+Om de chatfunctionaliteit effectief te controleren, raad ik aan om twee terminals te openen, waarbij je inlogt op de webinterface met account 1 en op de mobiele interface met account 2.
+
 Nu is de applicatie klaar voor gebruik!
