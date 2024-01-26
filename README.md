@@ -14,12 +14,13 @@ Indien nodig, download en installeer de Flutter SDK door de stappen te volgen op
 Flutter-pad instellen op Windows:
 Zorg ervoor dat het Flutter-pad is toegevoegd aan het systeem. Volg de instructies in de Flutter-installatiehandleiding om het pad op Windows in te stellen.
 
+INDIEN NODIG ALS NA FLUTTER PUB GET NIET ALLES VOLTOOIT(
 Firebase-tools en npm installeren:
 Voer de volgende opdrachten uit om Firebase-tools en npm te installeren:
 
 npm install
 npm install -g firebase-tools
-
+)
 Starten van de emulator voor Android-testen:
 
 Voer de volgende opdrachten uit:
