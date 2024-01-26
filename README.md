@@ -36,10 +36,10 @@ Voer de volgende opdracht uit en selecteer Windows wanneer daarom wordt gevraagd
 flutter run
 
 Gebruik de volgende accounts Telefoonnummer(Gebruik deze volgorde)
-Telefoonnummer: +31 6 11111111. <- het moet zo geschreven worden
+Telefoonnummer: +31 1 11111111. <- het moet zo geschreven worden met de spatie
 SMSCode: 111111
 
-Telefoonnummer: +31 6 22222222 <- het moet zo geschreven worden
-SMSCode: 222222
+Telefoonnummer: +31 4 44444444 <- het moet zo geschreven worden met de spatie
+SMSCode: 444444
 
 Nu is de applicatie klaar voor gebruik!
