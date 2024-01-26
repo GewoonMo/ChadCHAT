@@ -3,12 +3,18 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_application_1/firebase_options.dart';
 import 'package:flutter_application_1/src/provider/auth_provider.dart';
 import 'package:flutter_application_1/src/provider/chat_provider.dart';
+import 'package:flutter_application_1/src/seeder/message_seeder.dart';
+import 'package:flutter_application_1/src/seeder/user_seeder.dart';
 import 'package:flutter_application_1/src/views/welcome_page.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  await UserSeeder().seedUsers();
+  // Seed messages before running the app
+  await MessageSeeder().seedMessages();
   runApp(const MyApp());
 }
 
