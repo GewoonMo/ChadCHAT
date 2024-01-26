@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/src/provider/chat_provider.dart';
 import 'package:flutter_application_1/src/views/chat_screen.dart';
@@ -97,43 +98,72 @@ class _HomeScreenState extends State<HomeScreen> {
                   builder: (context, snapshot) {
                     String lastMessage = snapshot.data ?? '';
 
-                    return ListTile(
-                      onTap: () async {
-                        await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ChatScreen(
-                              receiverUserName: ap.allUsers[index].name,
-                              receiverUserProfilePicture:
-                                  ap.allUsers[index].profilePicture,
-                              receiverUserUid: ap.allUsers[index].uid,
+                    Future<Timestamp?> lastMessageTimeFuture = apc
+                        .getLastSentMessageTime(ap.allUsers[index].uid, ap.uid);
+
+                    return FutureBuilder<Timestamp?>(
+                      future: lastMessageTimeFuture,
+                      builder: (context, timeSnapshot) {
+                        DateTime? lastMessageTime = timeSnapshot.hasData
+                            ? timeSnapshot.data!.toDate()
+                            : null;
+                        String timeString =
+                            _formatTime(lastMessageTime ?? DateTime.now());
+
+                        return ListTile(
+                          onTap: () async {
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ChatScreen(
+                                  receiverUserName: ap.allUsers[index].name,
+                                  receiverUserProfilePicture:
+                                      ap.allUsers[index].profilePicture,
+                                  receiverUserUid: ap.allUsers[index].uid,
+                                ),
+                              ),
+                            );
+
+                            await _initializeData();
+                          },
+                          leading: CircleAvatar(
+                            backgroundColor:
+                                Theme.of(context).colorScheme.background,
+                            backgroundImage:
+                                NetworkImage(ap.allUsers[index].profilePicture),
+                          ),
+                          title: Text(
+                            ap.allUsers[index].name,
+                            style: const TextStyle(
+                              color: Color(0xFF549762),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18.0,
                             ),
                           ),
+                          subtitle: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  lastMessage,
+                                  style: const TextStyle(
+                                    color: Color(0xFF989EAE),
+                                    fontSize: 16.0,
+                                  ),
+                                ),
+                              ),
+                              const Spacer(),
+                              Text(
+                                timeString,
+                                style: const TextStyle(
+                                  color: Color(0xFF989EAE),
+                                  fontSize: 14.0,
+                                ),
+                              ),
+                            ],
+                          ),
                         );
-
-                        await _initializeData();
                       },
-                      leading: CircleAvatar(
-                        backgroundColor:
-                            Theme.of(context).colorScheme.background,
-                        backgroundImage:
-                            NetworkImage(ap.allUsers[index].profilePicture),
-                      ),
-                      title: Text(
-                        ap.allUsers[index].name,
-                        style: const TextStyle(
-                          color: Color(0xFF549762),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18.0,
-                        ),
-                      ),
-                      subtitle: Text(
-                        lastMessage,
-                        style: const TextStyle(
-                          color: Color(0xFF989EAE),
-                          fontSize: 16.0,
-                        ),
-                      ),
                     );
                   },
                 );
@@ -144,4 +174,30 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+}
+
+// ----------------------------------------------------------------
+// Helps to format the time
+// ----------------------------------------------------------------
+
+String _formatTime(DateTime time) {
+  String formattedTime = '';
+
+  int hour = time.hour;
+  int minute = time.minute;
+
+  String hourString = hour.toString();
+  String minuteString = minute.toString();
+
+  if (hour < 10) {
+    hourString = '0$hourString';
+  }
+
+  if (minute < 10) {
+    minuteString = '0$minuteString';
+  }
+
+  formattedTime = '$hourString:$minuteString';
+
+  return formattedTime;
 }

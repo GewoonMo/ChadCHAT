@@ -48,6 +48,7 @@ class ChatServices extends ChangeNotifier {
         .add(newMessage.toMap());
   }
 
+// Create a new message from the message
   Stream<QuerySnapshot> getMessages(String userId, String receiverUserId) {
     List<String> chatRoomIds = [userId, receiverUserId];
     chatRoomIds.sort();
@@ -102,6 +103,10 @@ class ChatServices extends ChangeNotifier {
     return lastMessage;
   }
 
+// ----------------------------------------------------------------
+// Delete message
+// ----------------------------------------------------------------
+
   Future<void> deleteMessage(
       String receiverUserId, String currentUserId, String messageId) async {
     try {
@@ -120,6 +125,10 @@ class ChatServices extends ChangeNotifier {
     }
   }
 
+// ----------------------------------------------------------------
+// Edit message
+// ----------------------------------------------------------------
+
   Future<void> editMessage(String receiverUserId, String currentUserId,
       String messageId, String editedMessage) async {
     try {
@@ -136,5 +145,34 @@ class ChatServices extends ChangeNotifier {
     } catch (e) {
       print('Error editing message: $e');
     }
+  }
+
+  Future<Timestamp?> getLastSentMessageTime(
+      String receiverUserId, String currentUserId) async {
+    Timestamp? lastMessageTime;
+
+    try {
+      List<String> userIds = [currentUserId, receiverUserId];
+      userIds.sort();
+      String chatRoomId = userIds.join('_');
+
+      QuerySnapshot<Map<String, dynamic>> lastMessageQuerySnapshot =
+          await _firestore
+              .collection('chat_rooms')
+              .doc(chatRoomId)
+              .collection('messages')
+              .orderBy('timestamp', descending: true)
+              .limit(1)
+              .get();
+
+      if (lastMessageQuerySnapshot.docs.isNotEmpty) {
+        lastMessageTime = lastMessageQuerySnapshot.docs.first
+            .data()['timestamp'] as Timestamp?;
+      }
+    } catch (e) {
+      print('Error getting last message: $e');
+    }
+
+    return lastMessageTime;
   }
 }
