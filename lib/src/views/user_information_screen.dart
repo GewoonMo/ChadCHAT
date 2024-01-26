@@ -7,7 +7,6 @@ import 'package:flutter_application_1/src/views/account_screen.dart';
 import 'package:flutter_application_1/src/views/home_screen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-// import 'dart:html' as html;
 
 import 'package:provider/provider.dart';
 
@@ -24,7 +23,7 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
   Uint8List webImage = Uint8List(8);
   final nameController = TextEditingController();
   final bioController = TextEditingController();
-  ImageProvider<Object>? _avatarImage; // Added this variable
+  ImageProvider<Object>? _avatarImage;
 
   @override
   void dispose() {
@@ -53,6 +52,7 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
     } else if (kIsWeb) {
       final ImagePicker _picker = ImagePicker();
       XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+
       if (image != null) {
         var f = await image.readAsBytes();
         setState(() {
@@ -225,8 +225,20 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
     if (_pickedImage != null) {
       PlatformFile platformFile;
       if (kIsWeb) {
+        if (kDebugMode) {
+          print("voor bytes");
+        }
+        // readAsBytes dont use this use somthing else for the web version
         var bytes = await _pickedImage!.readAsBytes();
+
+        if (kDebugMode) {
+          print("bytes");
+        }
         platformFile = WebFile(bytes);
+
+        if (kDebugMode) {
+          print("na bytes");
+        }
       } else {
         platformFile = MobileFile(_pickedImage!);
       }

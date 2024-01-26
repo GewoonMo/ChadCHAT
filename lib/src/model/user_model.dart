@@ -14,7 +14,7 @@ class UserModel {
       required this.phoneNumber,
       required this.uid});
 
-// Getting the dat from the server
+// Getting the data from the server
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
       name: map['name'] ?? '',

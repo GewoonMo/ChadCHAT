@@ -127,29 +127,39 @@ class _ChatScreenState extends State<ChatScreen> {
 
 // build the messages list input
   Widget _buildMessageInput() {
-    return Row(
-      children: [
-        Expanded(
-          child: TextField(
-            controller: _messageController,
-            style: const TextStyle(color: Colors.white),
-            decoration: const InputDecoration(
-              hintText: 'Type a message',
-              hintStyle: TextStyle(color: Colors.white54),
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(50)),
-                  borderSide: BorderSide(color: Color(0xFF549762))),
-              contentPadding: EdgeInsets.symmetric(horizontal: 20),
+    return Container(
+      // margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      margin: const EdgeInsets.fromLTRB(16, 16, 16, 25),
+
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(30),
+        color: const Color(0xFF549762),
+      ),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 20,
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(
+            child: TextField(
+              controller: _messageController,
+              style: const TextStyle(color: Colors.white),
+              decoration: const InputDecoration(
+                hintText: 'Type a message',
+                hintStyle: TextStyle(color: Colors.white54),
+                border: InputBorder.none,
+              ),
             ),
           ),
-        ),
-        IconButton(
-          onPressed: sendMessage,
-          icon: const Icon(Icons.send),
-          iconSize: 40,
-          color: Colors.white,
-        ),
-      ],
+          IconButton(
+            onPressed: sendMessage,
+            icon: const Icon(Icons.send_outlined),
+            iconSize: 30,
+            color: Colors.white,
+          ),
+        ],
+      ),
     );
   }
 

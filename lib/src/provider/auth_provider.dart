@@ -13,8 +13,6 @@ import 'package:flutter_application_1/src/utilities/utilities.dart';
 import 'package:flutter_application_1/src/views/verification_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// import 'dart:html' if (dart.library.html) 'dart:html' as html;
-
 // Abstract class for handling files
 abstract class PlatformFile {
   Future<String> getDownloadUrl();
@@ -306,7 +304,9 @@ class AuthProvider extends ChangeNotifier {
       QuerySnapshot<Map<String, dynamic>> snapshot =
           await _firebaseFirestore.collection("users").get();
 
-      _allUsers = snapshot.docs.map((doc) {
+      _allUsers = snapshot.docs
+          .where((doc) => doc['uid'] != _firebaseAuth.currentUser!.uid)
+          .map((doc) {
         return UserModel(
           name: doc['name'],
           bio: doc['bio'],
