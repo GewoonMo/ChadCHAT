@@ -32,13 +32,13 @@ class _HomeScreenState extends State<HomeScreen> {
     final ap = Provider.of<AuthProvider>(context, listen: false);
     final apc = Provider.of<ChatServices>(context, listen: false);
 
-    if (ap.allUsers.isEmpty) {
-      return const Center(
-        child: CircularProgressIndicator(
-          color: Colors.white,
-        ),
-      );
-    }
+    // if (ap.allUsers.isEmpty) {
+    //   return const Center(
+    //     child: CircularProgressIndicator(
+    //       color: Colors.white,
+    //     ),
+    //   );
+    // }
 
     return Scaffold(
       appBar: AppBar(

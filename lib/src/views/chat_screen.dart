@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/src/model/message_model.dart';
 import 'package:flutter_application_1/src/provider/chat_provider.dart';
-import 'package:intl/intl.dart';
+// import 'package:intl/intl.dart';
 
 class ChatScreen extends StatefulWidget {
   final String receiverUserName;
@@ -129,8 +130,9 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget _buildMessageInput() {
     return Container(
       // margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      margin: const EdgeInsets.fromLTRB(16, 16, 16, 25),
-
+      margin: kIsWeb
+          ? const EdgeInsets.fromLTRB(16, 16, 16, 75)
+          : const EdgeInsets.fromLTRB(16, 16, 16, 25),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
         color: const Color(0xFF549762),

@@ -304,9 +304,7 @@ class AuthProvider extends ChangeNotifier {
       QuerySnapshot<Map<String, dynamic>> snapshot =
           await _firebaseFirestore.collection("users").get();
 
-      _allUsers = snapshot.docs
-          .where((doc) => doc['uid'] != _firebaseAuth.currentUser!.uid)
-          .map((doc) {
+      _allUsers = snapshot.docs.map((doc) {
         return UserModel(
           name: doc['name'],
           bio: doc['bio'],
