@@ -1,16 +1,45 @@
-# flutter_application_1
+# Chadchat
 
-A new Flutter project.
+Volg onderstaande stappen om de applicatie te gebruiken:
 
-## Getting Started
+Kloon eerst de repository met behulp van de volgende opdracht:
 
-This project is a starting point for a Flutter application.
+git clone https://github.com/GewoonMo/ChadCHAT.git
+Navigeer naar de gekloonde repository en voer de volgende opdracht uit om de vereiste Flutter-pakketten te installeren:
+flutter pub get
 
-A few resources to get you started if this is your first Flutter project:
+SDK installeren:
+Indien nodig, download en installeer de Flutter SDK door de stappen te volgen op Flutter Installatiehandleiding.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Flutter-pad instellen op Windows:
+Zorg ervoor dat het Flutter-pad is toegevoegd aan het systeem. Volg de instructies in de Flutter-installatiehandleiding om het pad op Windows in te stellen.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Firebase-tools en npm installeren:
+Voer de volgende opdrachten uit om Firebase-tools en npm te installeren:
+
+npm install
+npm install -g firebase-tools
+
+Starten van de emulator voor Android-testen:
+
+Voer de volgende opdrachten uit:
+flutter emulators "emulator id name"
+flutter run
+
+Voor Web:
+Voer de volgende opdracht uit om de applicatie op Chrome te testen:
+
+flutter run -d chrome --web-renderer html
+
+Voor desktop (Windows):
+Voer de volgende opdracht uit en selecteer Windows wanneer daarom wordt gevraagd:
+flutter run
+
+Gebruik de volgende accounts Telefoonnummer(Gebruik deze volgorde)
+Telefoonnummer: +31 6 11111111. <- het moet zo geschreven worden
+SMSCode: 111111
+
+Telefoonnummer: +31 6 22222222 <- het moet zo geschreven worden
+SMSCode: 222222
+
+Nu is de applicatie klaar voor gebruik!
