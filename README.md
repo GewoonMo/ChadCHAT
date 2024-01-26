@@ -40,6 +40,6 @@ Telefoonnummer: +31 1 11111111. <- het moet zo geschreven worden met de spatie
 SMSCode: 111111
 
 Telefoonnummer: +31 4 44444444 <- het moet zo geschreven worden met de spatie
-SMSCode: 222222
+SMSCode: 444444
 
 Nu is de applicatie klaar voor gebruik!
